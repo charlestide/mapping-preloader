@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var fsExtra = require("fs-extra");
 var path = require("path");
+var colors = require('colors');
 var Maker = /** @class */ (function () {
     /**
      * 构造器
@@ -123,6 +124,7 @@ var Maker = /** @class */ (function () {
         var name = path.basename(file, path.extname(file));
         if (name) {
             this.files.set(name, file);
+            console.log('Hit file: ' + colors.yellow(file));
         }
     };
     /**
@@ -133,7 +135,7 @@ var Maker = /** @class */ (function () {
         //测试环境
         if (process.env.NODE_ENV == 'test') {
             requireFun = 'require';
-            this.config.cacheFile = targetFile = './preloader.mapping.ts';
+            this.config.cacheFile = targetFile = '../preloader.mapping.ts';
         }
         this.files.forEach(function (path, name) {
             template += "\"" + name + "\": () => " + requireFun + "(/* webpackChunkName: \"" + name + "\" */ \"" + path + "\"), \n";

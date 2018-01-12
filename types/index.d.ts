@@ -13,19 +13,19 @@ declare class PreLoader {
 
     private constructor(config)
 
-    static getInstance(config?): PreLoader;
+    static getInstance(cacheFile:string,callback?:Function): PreLoader;
 
-    static install(Vue,options?);
+    static install(Vue:any,options:any):void;
 
     public loadMap(componentMap:object):void;
 
     public getMaker():Maker;
 
-    public setCallback(callback);
+    public setCallback(callback:any):void;
 
-    public get(name:string);
+    public get(name:string):any;
 
-    public register(name:string);
+    public register(name:string):void;
 
     public registerAll():void;
 }

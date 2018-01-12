@@ -7,14 +7,13 @@
     "dist/*.js",
     "types/*.d.ts"
   ],
+  "bin": "dist/preload.js",
   "types": "types/index.d.ts",
   "typings": "types/index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --require ts-node/register ./test/**.tsx",
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=webpack.config.js"
+    "dev": "cross-env NODE_ENV=dev tsc -w",
+    "build": "cross-env NODE_ENV=prod tsc --listFiles --listEmittedFiles"
   },
   "repository": {
     "type": "git",
@@ -31,22 +30,24 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/defaults": "^1.0.2",
+    "@types/fs-extra": "^5.0.0",
+    "@types/graceful-fs": "^4.1.2",
+    "@types/lodash": "^4.14.92",
+    "@types/lodash.defaults": "^4.2.3",
+    "@types/pathjs": "^0.8.33",
     "@types/webpack": "^3.8.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-env": "^1.6.1",
+    "colors": "^1.1.2",
+    "commander": "^2.13.0",
     "fs-extra": "^5.0.0",
-    "@types/fs-extra": "^5.0.0",
     "lodash": "^4.17.4",
-    "@types/lodash": "^4.14.92",
-    "@types/lodash.defaults": "^4.2.3",
     "mocha": "^4.1.0",
     "path": "^0.12.7",
-    "@types/pathjs": "^0.8.33",
     "ts-loader": "^3.2.0",
-    "@types/defaults": "^1.0.2",
-    "@types/graceful-fs": "^4.1.2",
     "typescript": "^2.6.2",
     "vue": "^2.5.13"
   },

@@ -15,7 +15,7 @@ describe('TestMaker',() => {
             test: /\.ts$/,
             exclude: ['test']
         }],
-        cacheFile: './preloader.mapping.json',
+        cacheFile: './preloader.mapping.js',
     },marker = new Marker(config);
 
     it('test isExcludeDir', function () {

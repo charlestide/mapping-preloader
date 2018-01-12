@@ -1,6 +1,7 @@
 
 import Maker from './maker';
 import * as _ from 'lodash';
+import Vue from 'vue';
 
 class PreLoader {
 
@@ -12,44 +13,41 @@ class PreLoader {
     private loadedCallback: Function;
 
     /**
-     * @var Maker
-     */
-    private maker:Maker;
-
-    /**
      * 需加载的组件信息
      * @type {Map<string, Object>}
      */
     private components:Map<string,object> = new Map<string, object>();
 
     /**
-     * 私有构造
-     * @param {object} config
+     * 私有构造方法
+     * @param {string} cacheFile
+     * @param {Function} callback
      */
-    private constructor(config: object = {}) {
-        if (_.has(config,'callback')) {
-            this.setCallback(_.get(config,'callback'));
+    private constructor(cacheFile:string,callback?:Function) {
+        if (callback) {
+            this.setCallback(callback);
         }
 
-        this.maker = new Maker(config);
-        this.maker.make();
-
-        let makerConfig = this.maker.getConfig();
-        if (_.has(makerConfig,'cacheFile')) {
+        try {
             this.loadMap(
-                require('.'+_.get(makerConfig,'cacheFile'))
+                require(cacheFile)
             );
+        } catch (e) {
+            console.error('cannot load cache file: ' + cacheFile);
         }
+
+
     }
 
     /**
      * 获得单例实例
-     * @param {object} config
+     * @param {string} cacheFile
+     * @param {Function} callback
      * @returns {PreLoader}
      */
-    static getInstance(config = {}): PreLoader {
+    static getInstance(cacheFile:string,callback?:Function): PreLoader {
         if (!PreLoader.instance) {
-            PreLoader.instance = new PreLoader(config);
+            PreLoader.instance = new PreLoader(cacheFile,callback);
         }
         return PreLoader.instance;
     }
@@ -59,8 +57,12 @@ class PreLoader {
      * @param Vue
      * @param {object} options
      */
-    static install(Vue:any,options:any = {}) {
-        let loader = PreLoader.getInstance(options);
+    static install(Vue:any,options:any = {}):void {
+
+        let loader = PreLoader.getInstance(
+            _.get(options,'cacheFile','./preload.mapping.json'),
+            _.get(options,'callback',null)
+        );
 
         if (_.has(options,'callback')) {
             loader.setCallback(options.callback);
@@ -86,18 +88,10 @@ class PreLoader {
     }
 
     /**
-     * 返回 Maker
-     * @returns {Maker}
-     */
-    public getMaker():Maker {
-        return this.maker;
-    }
-
-    /**
      * 设置加载完成后的callback
      * @param {Function} callback
      */
-    public setCallback(callback: Function) {
+    public setCallback(callback: Function):void {
         this.loadedCallback = callback;
     }
 
@@ -106,9 +100,8 @@ class PreLoader {
      * @param {string} name
      * @returns {any}
      */
-    public get(name:string) {
-        let self = this,
-            callback = this.loadedCallback;
+    public get(name:string):any {
+        let callback = this.loadedCallback;
 
         if (this.components && this.components.has(name)) {
             let item = this.components.get(name);
@@ -138,7 +131,7 @@ class PreLoader {
     public register(name:string) {
         try {
             let com = this.get(name);
-            // Vue.component(name,com);
+            Vue.component(name,com);
         } catch (e) {
             console.error('module "'+name+'" cannot register');
         }

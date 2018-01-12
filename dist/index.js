@@ -1,38 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var maker_1 = require("./maker");
 var _ = require("lodash");
+var vue_1 = require("vue");
 var PreLoader = /** @class */ (function () {
     /**
-     * 私有构造
-     * @param {object} config
+     * 私有构造方法
+     * @param {string} cacheFile
+     * @param {Function} callback
      */
-    function PreLoader(config) {
-        if (config === void 0) { config = {}; }
+    function PreLoader(cacheFile, callback) {
         /**
          * 需加载的组件信息
          * @type {Map<string, Object>}
          */
         this.components = new Map();
-        if (_.has(config, 'callback')) {
-            this.setCallback(_.get(config, 'callback'));
+        if (callback) {
+            this.setCallback(callback);
         }
-        this.maker = new maker_1.default(config);
-        this.maker.make();
-        var makerConfig = this.maker.getConfig();
-        if (_.has(makerConfig, 'cacheFile')) {
-            this.loadMap(require('.' + _.get(makerConfig, 'cacheFile')));
+        try {
+            this.loadMap(require(cacheFile));
+        }
+        catch (e) {
+            console.error('cannot load cache file: ' + cacheFile);
         }
     }
     /**
      * 获得单例实例
-     * @param {object} config
+     * @param {string} cacheFile
+     * @param {Function} callback
      * @returns {PreLoader}
      */
-    PreLoader.getInstance = function (config) {
-        if (config === void 0) { config = {}; }
+    PreLoader.getInstance = function (cacheFile, callback) {
         if (!PreLoader.instance) {
-            PreLoader.instance = new PreLoader(config);
+            PreLoader.instance = new PreLoader(cacheFile, callback);
         }
         return PreLoader.instance;
     };
@@ -43,7 +43,7 @@ var PreLoader = /** @class */ (function () {
      */
     PreLoader.install = function (Vue, options) {
         if (options === void 0) { options = {}; }
-        var loader = PreLoader.getInstance(options);
+        var loader = PreLoader.getInstance(_.get(options, 'cacheFile', './preload.mapping.json'), _.get(options, 'callback', null));
         if (_.has(options, 'callback')) {
             loader.setCallback(options.callback);
         }
@@ -66,13 +66,6 @@ var PreLoader = /** @class */ (function () {
         });
     };
     /**
-     * 返回 Maker
-     * @returns {Maker}
-     */
-    PreLoader.prototype.getMaker = function () {
-        return this.maker;
-    };
-    /**
      * 设置加载完成后的callback
      * @param {Function} callback
      */
@@ -85,7 +78,7 @@ var PreLoader = /** @class */ (function () {
      * @returns {any}
      */
     PreLoader.prototype.get = function (name) {
-        var self = this, callback = this.loadedCallback;
+        var callback = this.loadedCallback;
         if (this.components && this.components.has(name)) {
             var item = this.components.get(name);
             if (!_.has(item, 'loader')) {
@@ -111,7 +104,7 @@ var PreLoader = /** @class */ (function () {
     PreLoader.prototype.register = function (name) {
         try {
             var com = this.get(name);
-            // Vue.component(name,com);
+            vue_1.default.component(name, com);
         }
         catch (e) {
             console.error('module "' + name + '" cannot register');

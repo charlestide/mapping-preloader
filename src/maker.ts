@@ -2,6 +2,8 @@ import * as _ from 'lodash';
 import * as fsExtra from 'fs-extra';
 import * as path from 'path';
 
+let colors = require('colors');
+
 class Maker {
 
     /**
@@ -131,6 +133,7 @@ class Maker {
         let name:string = path.basename(file,path.extname(file));
         if (name) {
             this.files.set(name,file);
+            console.log('Hit file: '+ colors.yellow(file));
         }
     }
 
@@ -146,7 +149,7 @@ class Maker {
         //测试环境
         if (process.env.NODE_ENV == 'test') {
             requireFun = 'require';
-            this.config.cacheFile = targetFile = './preloader.mapping.ts';
+            this.config.cacheFile = targetFile = '../preloader.mapping.ts';
         }
 
         this.files.forEach(function (path,name) {

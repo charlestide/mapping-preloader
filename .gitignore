@@ -1,2 +1,4 @@
 node_modules/
 .idea/
+.preload.mapping.js
+.preload.mapping.td
