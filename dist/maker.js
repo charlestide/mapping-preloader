@@ -15,13 +15,13 @@ var Maker = /** @class */ (function () {
         this.config = {
             path: {
                 root: './src',
-                exclude: []
+                exclude: [],
             },
             files: [{
                     test: /\.vue$/,
                     exclude: []
                 }],
-            cacheFile: './preloader.mapping.js'
+            cacheFile: './preloader.mapping.js',
         };
         /**
          * 查找到的文件列表

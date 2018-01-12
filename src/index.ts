@@ -1,8 +1,6 @@
 
 import Maker from './maker';
 import * as _ from 'lodash';
-// import {VueC} from "vue/types/vue";
-import Vue from "vue";
 
 class PreLoader {
 
@@ -61,7 +59,7 @@ class PreLoader {
      * @param Vue
      * @param {object} options
      */
-    static install(Vue:Vue,options:any = {}) {
+    static install(Vue,options:any = {}) {
         let loader = PreLoader.getInstance(options);
 
         if (_.has(options,'callback')) {
@@ -140,7 +138,7 @@ class PreLoader {
     public register(name:string) {
         try {
             let com = this.get(name);
-            Vue.component(name,com);
+            // Vue.component(name,com);
         } catch (e) {
             console.error('module "'+name+'" cannot register');
         }
