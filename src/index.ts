@@ -59,7 +59,7 @@ class PreLoader {
      * @param Vue
      * @param {object} options
      */
-    static install(Vue,options:any = {}) {
+    static install(Vue:any,options:any = {}) {
         let loader = PreLoader.getInstance(options);
 
         if (_.has(options,'callback')) {
@@ -120,7 +120,7 @@ class PreLoader {
             let loaderFunction = _.get(item,'loader');
 
             if (_.isFunction(callback)) {
-                return () => loaderFunction().then(function (com) {
+                return () => loaderFunction().then(function (com:any) {
                     callback(name);
                     return com;
                 });

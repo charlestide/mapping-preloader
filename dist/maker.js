@@ -1,6 +1,8 @@
-import * as _ from 'lodash';
-import * as fsExtra from 'fs-extra';
-import * as path from 'path';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = require("lodash");
+var fsExtra = require("fs-extra");
+var path = require("path");
 var Maker = /** @class */ (function () {
     /**
      * 构造器
@@ -144,5 +146,5 @@ var Maker = /** @class */ (function () {
     };
     return Maker;
 }());
-export default Maker;
+exports.default = Maker;
 //# sourceMappingURL=maker.js.map

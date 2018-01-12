@@ -1,29 +1,16 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
-//    "strict": true,
+    "strict": true,
     "outDir": "./dist",
     "lib": [
-      "es6",
-      "es2015",
-      "dom",
-      "es2015.core"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "types": [
-      "core-js",
-      "node"
+      "es6"
     ]
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "test"
+  "files": [
+    "src/index.ts",
+    "src/maker.ts"
   ]
 }
