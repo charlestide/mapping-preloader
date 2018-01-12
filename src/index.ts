@@ -1,5 +1,3 @@
-
-import Maker from './maker';
 import * as _ from 'lodash';
 import Vue from 'vue';
 
