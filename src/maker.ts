@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as fs from 'fs-extra';
+import * as fsExtra from 'fs-extra';
 import * as path from 'path';
 
 class Maker {
@@ -11,11 +11,11 @@ class Maker {
     private config = {
         path: {
             root: './src',
-            except: [],
+            exclude: [],
         },
         files: [{
             test: /\.vue$/,
-            except: []
+            exclude: []
         }],
         cacheFile: './preloader.mapping.js',
     };
@@ -54,17 +54,17 @@ class Maker {
      * @param {string} path
      */
     private scanDir(path:string):void {
-        let files = fs.readdirSync(path),
+        let files = fsExtra.readdirSync(path),
             self = this;
 
         for(let filename of files) {
             let currentPath = path + '/' +filename;
 
-            if (fs.pathExistsSync(currentPath)) {
-                let stat = fs.statSync(currentPath);
+            if (fsExtra.pathExistsSync(currentPath)) {
+                let stat = fsExtra.statSync(currentPath);
 
                 //如果是目录，则继续递归
-                if (stat.isDirectory() && !this.isExceptDir(filename)) {
+                if (stat.isDirectory() && !this.isExcludeDir(filename)) {
                     this.scanDir(currentPath);
                 } else if (this.isTargetFile(filename)) {
                     this.parseFile(currentPath);
@@ -78,8 +78,8 @@ class Maker {
      * @param {string} name
      * @returns {boolean}
      */
-    private isExceptDir(name:string):boolean {
-        return this.isHit(name,this.config.path.except);
+    private isExcludeDir(name:string):boolean {
+        return this.isHit(name,this.config.path.exclude);
     }
 
     /**
@@ -112,7 +112,7 @@ class Maker {
                         //如果有正则，则对name判断
                         (_.has(exp,'test') && _.isRegExp(exp.test) && exp.test.test(name))
                         //如果有except，则对name进行排除
-                        && (_.has(exp,'except') && !this.isHit(name,exp.except))
+                        && (_.has(exp,'exclude') && !this.isHit(name,exp.exclude))
                     ) {
                         return true;
                     }
@@ -156,8 +156,8 @@ class Maker {
         template += "};\n";
         template += "export default PreLoaderMapping; \n";
         template += "module.exports = PreLoaderMapping; \n";
-        fs.ensureFile(targetFile);
-        fs.writeFileSync(targetFile,template,'utf-8');
+        // fsExtra.ensureFile(targetFile);
+        fsExtra.writeFileSync(targetFile,template,'utf-8');
     }
 }
 

@@ -9,18 +9,18 @@ describe('TestMaker',() => {
     const config = {
         path: {
             root: './src',
-            except: ['test','node_modules'],
+            exclude: ['test','node_modules'],
         },
         files: [{
             test: /\.ts$/,
-            except: ['test']
+            exclude: ['test']
         }],
         cacheFile: './preloader.mapping.json',
     },marker = new Marker(config);
 
-    it('test isExceptDir', function () {
-        expect(marker.isExceptDir('index.ts')).to.false;
-        expect(marker.isExceptDir('test')).to.true;
+    it('test isExcludeDir', function () {
+        expect(marker.isExcludeDir('index.ts')).to.false;
+        expect(marker.isExcludeDir('test')).to.true;
     });
 
     it('test parseFile', () => {

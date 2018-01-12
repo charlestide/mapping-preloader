@@ -8,17 +8,17 @@ describe('TestMaker', function () {
     var config = {
         path: {
             root: './src',
-            except: ['test', 'node_modules'],
+            exclude: ['test', 'node_modules'],
         },
         files: [{
                 test: /\.ts$/,
-                except: ['test']
+                exclude: ['test']
             }],
         cacheFile: './preloader.mapping.json',
     }, marker = new maker_1.default(config);
-    it('test isExceptDir', function () {
-        chai_1.expect(marker.isExceptDir('index.ts')).to.false;
-        chai_1.expect(marker.isExceptDir('test')).to.true;
+    it('test isExcludeDir', function () {
+        chai_1.expect(marker.isExcludeDir('index.ts')).to.false;
+        chai_1.expect(marker.isExcludeDir('test')).to.true;
     });
     it('test parseFile', function () {
         marker.parseFile('index.ts');

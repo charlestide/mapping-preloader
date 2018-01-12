@@ -1,24 +1,27 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es3",
     "sourceMap": true,
+//    "strict": true,
+    "outDir": "./dist",
     "lib": [
       "es6",
-      "es2015.core",
-      "es2015.promise",
-      "es2015"
+      "es2015",
+      "dom",
+      "es2015.core"
     ],
     "typeRoots": [
       "./node_modules/@types"
     ],
     "types": [
       "core-js",
-      "node",
-      "webpack"
+      "node"
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test"
   ]
 }

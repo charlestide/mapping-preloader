@@ -1,8 +1,5 @@
-export as namespace PreLoader;
 
-export = Maker;
-
-declare class Maker {
+export declare class Maker {
 
     constructor(config);
 
@@ -22,5 +19,5 @@ declare class Maker {
 
     public output():void;
 
-
 }
+

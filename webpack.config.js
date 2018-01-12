@@ -22,17 +22,16 @@ module.exports = {
             },
             {
                 test: /\.js\.map$/,
-                loader: "json-loader"
+                loader: "raw-loader"
             }
         ]
     },
-    devtool: "inline-source-map",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index.js',
         chunkFilename: './components/[name].bundle.js'
     },
     resolve: {
-        extensions: ['.js','.ts']
+        extensions: ['.js','.ts'],
     }
 };

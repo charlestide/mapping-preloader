@@ -1,8 +1,5 @@
-import Maker from "./maker";
 
-export as namespace PreLoader;
-
-export = PreLoader;
+import {Maker} from "./maker";
 
 declare class PreLoader {
 
@@ -32,5 +29,9 @@ declare class PreLoader {
 
     public registerAll():void;
 }
+
+export default PreLoader;
+
+export * from "./maker";
 
 

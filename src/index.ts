@@ -1,7 +1,8 @@
 
 import Maker from './maker';
 import * as _ from 'lodash';
-import * as Vue from 'vue';
+// import {VueC} from "vue/types/vue";
+import Vue from "vue";
 
 class PreLoader {
 
@@ -60,7 +61,7 @@ class PreLoader {
      * @param Vue
      * @param {object} options
      */
-    static install(Vue,options:any = {}) {
+    static install(Vue:Vue,options:any = {}) {
         let loader = PreLoader.getInstance(options);
 
         if (_.has(options,'callback')) {
